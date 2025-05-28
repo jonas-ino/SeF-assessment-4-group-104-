@@ -125,5 +125,21 @@ public class Person {
         }
         return true;
     }
+    private boolean validAge(int age, int requiredAge){
+        try {
+            int ageInt = Integer.parseInt(age);
+        } catch (NumberFormatException e) {
+            System.out.println("User error: Age is not a number");
+        }
+        if(age < 0){
+             System.out.println("User error: Age is a negative number");
+            return false;
+        }
+        if(age < requiredAge){
+            System.out.println("User error: Age is below required age");
+            return false;
+        }
+        return true;
+    }
 
 }

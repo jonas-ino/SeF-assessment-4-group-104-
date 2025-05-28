@@ -66,11 +66,15 @@ public class Person {
             return false;
         }
         String[] parts = date.split("-");
-
-        if(!(Integer.parseInt(parts[2]) > 1900 && Integer.parseInt(parts[2]) <= 2025)){
-            System.out.println("User error: Year must be greater than 1900 and less than 2025");
+        try {
+            if(!(Integer.parseInt(parts[2]) > 1900 && Integer.parseInt(parts[2]) <= 2025)){
+                System.out.println("User error: Year must be greater than 1900 and less than 2025");
 
         }
+        } catch (Exception e) {
+            System.out.println("System error: There is something wrong");
+        }
+       
         try{
             LocalDate parsedDate = LocalDate.parse(date, formater);
         } catch(Exception e) {
@@ -126,11 +130,11 @@ public class Person {
         return true;
     }
     private boolean validAge(int age, int requiredAge){
-        try {
+        /*try {
             int ageInt = Integer.parseInt(age);
         } catch (NumberFormatException e) {
             System.out.println("User error: Age is not a number");
-        }
+        }*/
         if(age < 0){
              System.out.println("User error: Age is a negative number");
             return false;

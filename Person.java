@@ -78,7 +78,7 @@ public class Person {
         }
 
         // Return false if no record of user is found
-        if userIndex = -1 {
+        if (userIndex = -1) {
             System.out.println("User not found");
             return false;
         }

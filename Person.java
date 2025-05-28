@@ -1,11 +1,18 @@
 import java.util.HashMap;
 import java.util.Date;
+
+// addPerson imports
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.regex.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.ResolverStyle;
+
+// updatePersonalDetails imports
+import java.util.Scanner;
+import java.util.List;
+import java.util.ArrayList;
 
 public class Person {
     private String personID;
@@ -33,14 +40,117 @@ public class Person {
         return true;
     }
 
-    public boolean updatePersonalDetails(){
+    public boolean updatePersonalDetails(String currID, String inID, String inFirstName, String inLastName, String inBirthDate, String inAddress){
+        // Updates user details passed on by the API
+
+        // CONDITIONS:
+        //      if person's age < 18, cannot change address
+        //      if birthdate is being changed, cannot update any other value
+        //      if char[0] of person's id is an even number, ID cannot be changed
+        //
+        // ASSUMPTION: If the User does not change specific values, the current values are passed along
+
+        // TODO: Verify that all new inputs are valid
+        // TODO: Check if any input variables are NULL, and if so, set them to the current details
+        // TODO: Ensure no values have commas
+        // TODO: Update private values in the addPerson function, or make a proper constructor
+        // TODO: If demerit point file exists, change name if ID updates
+
+        // Add the contents of the "people.txt" file to a scanner
+        String filename = "people.txt";
+        Scanner scanner = new Scanner(File(filename));
+        List<String[]> people = new ArrayList<>();
+
+        // Append each line to the list in a String array of each value
+        while (scanner.hasNextLine()) {
+            String curr = scanner.nextLine();
+            people.add(curr.split(","));
+        }
+
+        // people[i][0] = ID
+        // people[i][1] = Name (firstName + " " + lastName)
+        // people[i][2] = Address
+        // people[i][3] = Birth Date
+
+        // Check for user in "database"
+        int userIndex = -1;
+        for (int i = 0; i < people.size(); i++) {
+            if (people.get(i)[0].equals(currID)) {
+                userIndex = i;
+                break;
+            }
+        }
+
+        // Return false if no record of user is found
+        if userIndex = -1 {
+            System.out.println("User not found");
+            return false;
+        }
+
+        // Create local variables based on saved data
+        String ID = people.get(userIndex)[0];
+        String name = people.get(userIndex)[1];
+        String address = people.get(userIndex)[2];
+        String birthDate = people.get(userIndex)[3];
+        // May need to include demerit points and date
+
+        // Check if any input variables are NULL, and if so, set them to the current details
+        String newName;
+        if (inID == null) { inID = ID; }
+        if (inFirstName == null) { newName = name; }
+        if (inLastName == null) { newName = name; }
+        if (inAddress == null) { inAddress = address; }
+        if (inBirthDate == null) { inBirthDate = birthDate; }
+
+        // Verify new inputs are valid
+
+        // Calculate user's age
+        int birthYear = Integer.parseInt(birthDate.split("-")[2]);
+        Date currentDate = new Date();
+        int currentYear = currentDate.getYear() + 1900;
+        int age = currentYear - birthYear;
+
+        // Format new name for comparison
+        newName = inFirstName + " " + inLastName;
+
+        // CONDITION 1: If person's age < 18, cannot change address
+        if (age < 18 && !address.equals(inAddress)) {
+            System.out.println(name + " is younger than 18. Address cannot be changed. No changes have been made.");
+            return false;
+        }
+
+        // CONDITION 2: If birthdate is being changed, cannot update any other value
+        if (!inBirthDate.equals(birthDate)) {
+            if (!newName.equals(name) || !newAddress.equals(address)) {
+                System.out.println("If updating birth date, no other information may be changed. No changes have been made.");
+                return false;
+            }
+        }
+
+        // CONDITION 3: If first character/digit of person's id is an even number, ID cannot be changed
+        if (Integer.parseInt(ID[0]) % 2 == 0 && !inID.equals(ID)) {
+            System.out.println("First digit of ID is even. ID cannot be changed. No changes have been made.");
+            return false;
+        }
+
+        // Continue if all 3 conditions have been met
+        newData = inID + "," + newName + "," + inAddress + "," + inBirthDate;
+
+        // Set line in txt file as newData
 
         return true;
     }
 
     public String addDemeritPoints(){
+        // Add demerit points function creates/updates file named "{id}_demerit" and records the date of each new demerit point addition
+        // Updates isSuspended to true if total demerit points within 2 years is >= 12
 
+        // MIGHT NOT NEED TO RECORD ALL, MAYBE JUST LATEST INFRINGEMENT
         return "";
+    }
+
+    public boolean loadUser(String userID) {
+        return true;
     }
 
     private boolean validAddress(String inputAddress){

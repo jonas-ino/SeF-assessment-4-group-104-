@@ -46,7 +46,7 @@ public class Person {
             System.out.println("User error: Invalid Address format");
             return false;
         }
-        if(!parts[2].trim().equals("Melbourne") || !parts[3].trim().equals("Victoria") || !parts[4].trim().equals("Australia")){
+        if(!parts[2].trim().equalsIgnoreCase("Melbourne") || !parts[3].trim().equalsIgnoreCase("Victoria") || !parts[4].trim().equals("Australia")){
             System.out.println("User error: Invalid Address or outside address is outside victoria");
             return false;
         }

@@ -3,6 +3,9 @@ import java.util.Date;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.regex.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.ResolverStyle;
 
 public class Person {
     private String personID;
@@ -20,7 +23,7 @@ public class Person {
         }
         // writes details into file
         try (FileWriter writer = new FileWriter("people.txt", true)) {
-            writer.write(inputPersonID + "|" + inputAddress + "|" + inputBirthDate + "\n");
+            writer.write(inputPersonID + "," + firstName + " " +  lastName + "," + inputAddress + "," + inputBirthDate + "\n");
         } catch (IOException e) {
             e.printStackTrace();
             return false;
@@ -54,10 +57,24 @@ public class Person {
     }
      private boolean validDate(String date){
         Pattern pattern = Pattern.compile("^\\d{2}-\\d{2}-\\d{4}$");
+        DateTimeFormatter formater = DateTimeFormatter.ofPattern("dd-MM-uuuu")
+                            .withResolverStyle(ResolverStyle.STRICT);
         Matcher matcher = pattern.matcher(date);
         // need to ensure that date is within actual date boundaries
         if(!matcher.matches()){
             System.out.println("User error: Invalid date format");
+            return false;
+        }
+        String[] parts = date.split("-");
+
+        if(!(Integer.parseInt(parts[2]) > 1900 && Integer.parseInt(parts[2]) <= 2025)){
+            System.out.println("User error: Year must be greater than 1900 and less than 2025");
+
+        }
+        try{
+            LocalDate parsedDate = LocalDate.parse(date, formater);
+        } catch(Exception e) {
+            System.out.println("User error: Date is invalid");
             return false;
         }
         return true;

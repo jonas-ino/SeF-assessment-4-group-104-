@@ -23,7 +23,7 @@ public class Person {
         }
         // writes details into file
         try (FileWriter writer = new FileWriter("people.txt", true)) {
-            writer.write(inputPersonID + "," + firstName + " " +  lastName + "," + inputAddress + "," + inputBirthDate + "\n");
+            writer.write(inputPersonID + "," + inputFirstName + " " +  inputLastName + "," + inputAddress + "," + inputBirthDate + "\n");
         } catch (IOException e) {
             e.printStackTrace();
             return false;

@@ -44,11 +44,6 @@ public class Person {
     public boolean updatePersonalDetails(String currID, String inID, String inFirstName, String inLastName, String inBirthDate, String inAddress){
         // Updates user details passed on by the API
 
-        // CONDITIONS:
-        //      if person's age < 18, cannot change address
-        //      if birthdate is being changed, cannot update any other value
-        //      if char[0] of person's id is an even number, ID cannot be changed
-        //
         // ASSUMPTION: If the User does not change specific values, the current values are passed along
 
         // TODO: Verify that all new inputs are valid
@@ -135,9 +130,13 @@ public class Person {
         }
 
         // Continue if all 3 conditions have been met
-        newData = inID + "," + newName + "," + inAddress + "," + inBirthDate;
+        String newData = inID + "," + newName + "," + inAddress + "," + inBirthDate;
 
         // Set line in txt file as newData
+        List<String> lines = Files.readAllLines(Paths.get(filename));
+        lines.set(userIndex, newData);
+        Files.write(Paths.get(filename), lines);
+        System.out.println("User information successfully updated.");
 
         return true;
     }
@@ -149,7 +148,7 @@ public class Person {
         // MIGHT NOT NEED TO RECORD ALL, MAYBE JUST LATEST INFRINGEMENT
         return "";
     }
-    // checks to see if theaddress is in valid format
+    // checks to see if the address is in valid format
     private boolean validAddress(String inputAddress){
         //splits address up so it can be check individually later on
         String[] parts = inputAddress.split("\\|");

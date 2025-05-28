@@ -69,7 +69,7 @@ public class Person {
         // people[i][3] = Birth Date
 
         // Check for user in "database"
-        int userIndex = -1;
+        int userIndex == -1;
         for (int i = 0; i < people.size(); i++) {
             if (people.get(i)[0].equals(currID)) {
                 userIndex = i;
@@ -91,12 +91,15 @@ public class Person {
         // May need to include demerit points and date
 
         // Check if any input variables are NULL, and if so, set them to the current details
-        String newName;
         if (inID == null) { inID = ID; }
-        if (inFirstName == null) { newName = name; }
-        if (inLastName == null) { newName = name; }
         if (inAddress == null) { inAddress = address; }
         if (inBirthDate == null) { inBirthDate = birthDate; }
+
+        String[] nameParts = name.split(" ");
+        // TODO: Change this in case of multiple names! eg. Surname = "De Guzman"
+        if (inFirstName == null) { inFirstName = nameParts[0]; }
+        if (inLastName == null) { inLastName = nameParts[1]; }
+        String newName = inFirstName + " " + inLastName;
 
         // Verify new inputs are valid
 
@@ -117,14 +120,15 @@ public class Person {
 
         // CONDITION 2: If birthdate is being changed, cannot update any other value
         if (!inBirthDate.equals(birthDate)) {
-            if (!newName.equals(name) || !newAddress.equals(address)) {
+            if (!newName.equals(name) || !inAddress.equals(address)) {
                 System.out.println("If updating birth date, no other information may be changed. No changes have been made.");
                 return false;
             }
         }
 
         // CONDITION 3: If first character/digit of person's id is an even number, ID cannot be changed
-        if (Integer.parseInt(ID[0]) % 2 == 0 && !inID.equals(ID)) {
+        int firstDigit = Character.getNumericValue(ID.charAt(0));
+        if (firstDigit % 2 == 0 && !inID.equals(ID)) {
             System.out.println("First digit of ID is even. ID cannot be changed. No changes have been made.");
             return false;
         }
@@ -133,11 +137,16 @@ public class Person {
         String newData = inID + "," + newName + "," + inAddress + "," + inBirthDate;
 
         // Set line in txt file as newData
-        List<String> lines = Files.readAllLines(Paths.get(filename));
-        lines.set(userIndex, newData);
-        Files.write(Paths.get(filename), lines);
-        System.out.println("User information successfully updated.");
+        try {
+            List<String> lines = Files.readAllLines(Paths.get(filename));
+            lines.set(userIndex, newData);
+            Files.write(Paths.get(filename), lines);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
 
+        System.out.println("User information successfully updated.");
         return true;
     }
 

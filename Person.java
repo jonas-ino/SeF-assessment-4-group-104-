@@ -73,14 +73,16 @@ public class Person {
         String[] parts = date.split("-");
         //checks to see if the values of the dates are valid
         try {
-            if(!(Integer.parseInt(parts[2]) > 1900 && Integer.parseInt(parts[2]) <= 2025 
+            if(!((Integer.parseInt(parts[2]) > 1900 && Integer.parseInt(parts[2]) <= 2025 
             && Integer.parseInt(parts[0]) > 0 && Integer.parseInt(parts[0]) <31) 
-            && Integer.parseInt(parts[1]) > 1 && Integer.parseInt(parts[1]) <= 12){
+            && Integer.parseInt(parts[1]) > 1 && Integer.parseInt(parts[1]) <= 12)){
                 System.out.println("User error: Date has invalid values");
+                return false;
 
         }
         } catch (Exception e) {
             System.out.println("System error: There is something wrong");
+            return false;
         }
        //double checks to see if the actual date is a real date
         try{

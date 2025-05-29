@@ -21,17 +21,32 @@ public class Person {
     private String address;
     private String birthDate;
     private HashMap<Date, Integer> demeritPoints;
+    private String filename = "people.txt";
 
     //add person to people.txt file for storage
     public boolean addPerson(String inputPersonID, String inputFirstName, String inputLastName, String inputBirthDate, String inputAddress){
         // checks to see if address, birth date, id and name is in correct format
+        if (!validId(inputPersonID) || !validName(inputFirstName) || !validName(inputLastName) || !validDate(inputBirthDate) || !validAddress(inputAddress)) {
+            System.out.println("Failure");
+            return false;
+        }
+
+        /*
         if(!validAddress(inputAddress) || !validDate(inputBirthDate) || !validId(inputPersonID) || !validName(inputFirstName, inputLastName)){
             System.out.println("Failure");
             return false;
         }
+         */
+
+        personID = inputPersonID;
+        firstName = inputFirstName;
+        lastName = inputLastName;
+        address = inputAddress;
+        birthDate = inputBirthDate;
+
         // writes details into file
-        try (FileWriter writer = new FileWriter("people.txt", true)) {
-            writer.write(inputPersonID + "," + inputFirstName + " " +  inputLastName + "," + inputAddress + "," + inputBirthDate + "\n");
+        try (FileWriter writer = new FileWriter(filename, true)) {
+            writer.write(personID + "," + lastName + "," +  firstName + "," + address + "," + birthDate + "\n");
         } catch (IOException e) {
             e.printStackTrace();
             return false;
@@ -41,105 +56,69 @@ public class Person {
         return true;
     }
 
-    public boolean updatePersonalDetails(String currID, String inID, String inFirstName, String inLastName, String inBirthDate, String inAddress){
+    public boolean updatePersonalDetails(String inID, String inFirstName, String inLastName, String inBirthDate, String inAddress){
         // Updates user details passed on by the API
 
         // ASSUMPTION: If the User does not change specific values, the current values are passed along
 
-        // TODO: Verify that all new inputs are valid
-        // TODO: Check if any input variables are NULL, and if so, set them to the current details
         // TODO: Ensure no values have commas
         // TODO: Update private values in the addPerson function, or make a proper constructor
         // TODO: If demerit point file exists, change name if ID updates
 
-        // Add the contents of the "people.txt" file to a scanner
-        String filename = "people.txt";
-        Scanner scanner = new Scanner(File(filename));
-        List<String[]> people = new ArrayList<>();
-
-        // Append each line to the list in a String array of each value
-        while (scanner.hasNextLine()) {
-            String curr = scanner.nextLine();
-            people.add(curr.split(","));
-        }
-
-        // people[i][0] = ID
-        // people[i][1] = Name (firstName + " " + lastName)
-        // people[i][2] = Address
-        // people[i][3] = Birth Date
-
-        // Check for user in "database"
-        int userIndex == -1;
-        for (int i = 0; i < people.size(); i++) {
-            if (people.get(i)[0].equals(currID)) {
-                userIndex = i;
-                break;
-            }
-        }
-
-        // Return false if no record of user is found
-        if (userIndex = -1) {
-            System.out.println("User not found");
+        // Check if user details are recorded in people.txt
+        index = getIndex();
+        if (index < 0) {
+            System.out.println("User details not found");
             return false;
         }
 
-        // Create local variables based on saved data
-        String ID = people.get(userIndex)[0];
-        String name = people.get(userIndex)[1];
-        String address = people.get(userIndex)[2];
-        String birthDate = people.get(userIndex)[3];
-        // May need to include demerit points and date
-
         // Check if any input variables are NULL, and if so, set them to the current details
-        if (inID == null) { inID = ID; }
-        if (inAddress == null) { inAddress = address; }
+        if (inFirstName == null) { inFirstName = firstName; }
+        if (inLastName == null)  { inLastName = lastName; }
+        if (inID == null)        { inID = personID; }
         if (inBirthDate == null) { inBirthDate = birthDate; }
+        if (inAddress == null)   { inAddress = address; }
 
-        String[] nameParts = name.split(" ");
-        // TODO: Change this in case of multiple names! eg. Surname = "De Guzman"
-        if (inFirstName == null) { inFirstName = nameParts[0]; }
-        if (inLastName == null) { inLastName = nameParts[1]; }
-        String newName = inFirstName + " " + inLastName;
+        // Ensures that all new values are valid
+        if (!validId(inID) || !validName(inFirstName) || !validName(inLastName) || !validDate(inBirthDate) || !validAddress(inAddress)) {
+            System.out.println("Failure");
+            return false;
+        }
 
-        // Verify new inputs are valid
-
-        // Calculate user's age
+        // Calculate person's age
         int birthYear = Integer.parseInt(birthDate.split("-")[2]);
         Date currentDate = new Date();
         int currentYear = currentDate.getYear() + 1900;
         int age = currentYear - birthYear;
 
-        // Format new name for comparison
-        newName = inFirstName + " " + inLastName;
-
-        // CONDITION 1: If person's age < 18, cannot change address
-        if (age < 18 && !address.equals(inAddress)) {
-            System.out.println(name + " is younger than 18. Address cannot be changed. No changes have been made.");
-            return false;
-        }
-
-        // CONDITION 2: If birthdate is being changed, cannot update any other value
+        // CONDITION 1: If birthdate is being changed, cannot update any other value
         if (!inBirthDate.equals(birthDate)) {
-            if (!newName.equals(name) || !inAddress.equals(address)) {
+            if (!inID.equals(personID) || !inFirstName.equals(firstName) || !inLastName.equals(lastName) || !inAddress.equals(address)) {
                 System.out.println("If updating birth date, no other information may be changed. No changes have been made.");
                 return false;
             }
         }
 
+        // CONDITION 2: If person's age < 18, cannot change address
+        if (age < 18 && !address.equals(inAddress)) {
+            System.out.println("User is is younger than 18. Address cannot be changed. No changes have been made.");
+            return false;
+        }
+
         // CONDITION 3: If first character/digit of person's id is an even number, ID cannot be changed
         int firstDigit = Character.getNumericValue(ID.charAt(0));
         if (firstDigit % 2 == 0 && !inID.equals(ID)) {
-            System.out.println("First digit of ID is even. ID cannot be changed. No changes have been made.");
+            System.out.println("Initial ID digit is even. ID cannot be changed. No changes have been made.");
             return false;
         }
 
         // Continue if all 3 conditions have been met
-        String newData = inID + "," + newName + "," + inAddress + "," + inBirthDate;
+        String newData = inID + "," + inLastName + "," + inFirstName + "," + inAddress + "," + inBirthDate;
 
         // Set line in txt file as newData
         try {
             List<String> lines = Files.readAllLines(Paths.get(filename));
-            lines.set(userIndex, newData);
+            lines.set(index, newData);
             Files.write(Paths.get(filename), lines);
         } catch (IOException e) {
             e.printStackTrace();
@@ -245,7 +224,8 @@ public class Person {
 
         return true;
     }
-    
+
+    /*
     private boolean validName(String inputFirstName,  String inputLastName){
         //create full name
         String mashedFullName = inputFirstName + inputLastName;
@@ -258,6 +238,19 @@ public class Person {
         }
         return true;
     }
+    */
+
+    private boolean validName(String input){
+        // Ensures that names are only letters
+        for (char c : input.toCharArray()) {
+            if (Character.isDigit(c) || !Character.isLetterOrDigit(c)) {
+                System.out.println("User error: There is a digit or special character in name");
+                return false;
+            }
+        }
+        return true;
+    }
+
     private boolean validAge(int age, int requiredAge){
         /*try {
             int ageInt = Integer.parseInt(age);
@@ -275,6 +268,34 @@ public class Person {
             return false;
         }
         return true;
+    }
+
+    private int getIndex () {
+        // Add the contents of the "people.txt" file to a scanner
+        Scanner scanner = new Scanner(File(filename));
+        List<String[]> people = new ArrayList<>();
+
+        // Append each line to the list in a String array of each value
+        while (scanner.hasNextLine()) {
+            String curr = scanner.nextLine();
+            people.add(curr.split(","));
+        }
+
+        // people[i][0] = ID
+        // people[i][1] = Last Name
+        // people[i][2] = First Name
+        // people[i][3] = Address
+        // people[i][4] = Birth Date
+
+        // Check for user in "database"
+        int userIndex == -1;
+        for (int i = 0; i < people.size(); i++) {
+            if (people.get(i)[0].equals(currID)) {
+                userIndex = i;
+                break;
+            }
+        }
+        return userIndex;
     }
 
 }

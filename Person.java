@@ -27,11 +27,16 @@ public class Person {
     private String filename = "people.txt";
 
     public Person(String personID, String firstName, String lastName, String birthDate, String address){
+        if (personID == null || firstName == null || lastName == null || birthDate == null || address == null) {
+            System.out.println("You are getting kicked out for entering null value");
+            throw new IllegalArgumentException("Null is not allowed");
+        } else{
         this.personID = personID;
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
         this.birthDate = birthDate;
+        }
     }
     //add person to people.txt file for storage
     public boolean addPerson(){
@@ -40,15 +45,6 @@ public class Person {
             System.out.println("Failure");
             return false;
         }
-
-        /*
-        if(!validAddress(inputAddress) || !validDate(inputBirthDate) || !validId(inputPersonID) || !validName(inputFirstName, inputLastName)){
-            System.out.println("Failure");
-            return false;
-        }
-         */
-
-
         // writes details into file
         try (FileWriter writer = new FileWriter(filename, true)) {
             writer.write(personID + "," + lastName + "," +  firstName + "," + address + "," + birthDate + "\n");
@@ -149,7 +145,7 @@ public class Person {
             return false;
         }
         // checks to see if the address is within the operating zone of Roadregistry
-        if(!parts[2].trim().equalsIgnoreCase("Melbourne") || !parts[3].trim().equalsIgnoreCase("Victoria")
+        if(!parts[3].trim().equalsIgnoreCase("Victoria")
         || !parts[4].trim().equals("Australia")){
             System.out.println("User error: Invalid Address or outside address is outside victoria");
             return false;
@@ -194,7 +190,7 @@ public class Person {
     private boolean validId(String inputPersonID){
         //checks length of id
         if(inputPersonID.length() != 10){
-            System.out.println("User error: ID length is too long");
+            System.out.println("User error: ID length is not 10");
             return false;
         }
         //checks first characters of id to see if they are digits

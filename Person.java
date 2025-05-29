@@ -13,6 +13,9 @@ import java.time.format.ResolverStyle;
 import java.util.Scanner;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class Person {
     private String personID;
@@ -23,10 +26,17 @@ public class Person {
     private HashMap<Date, Integer> demeritPoints;
     private String filename = "people.txt";
 
+    public Person(String personID, String firstName, String lastName, String birthDate, String address){
+        this.personID = personID;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
+        this.birthDate = birthDate;
+    }
     //add person to people.txt file for storage
-    public boolean addPerson(String inputPersonID, String inputFirstName, String inputLastName, String inputBirthDate, String inputAddress){
+    public boolean addPerson(){
         // checks to see if address, birth date, id and name is in correct format
-        if (!validId(inputPersonID) || !validName(inputFirstName) || !validName(inputLastName) || !validDate(inputBirthDate) || !validAddress(inputAddress)) {
+        if (!validId(personID) || !validName(firstName) || !validName(lastName) || !validDate(birthDate) || !validAddress(address)) {
             System.out.println("Failure");
             return false;
         }
@@ -38,11 +48,6 @@ public class Person {
         }
          */
 
-        personID = inputPersonID;
-        firstName = inputFirstName;
-        lastName = inputLastName;
-        address = inputAddress;
-        birthDate = inputBirthDate;
 
         // writes details into file
         try (FileWriter writer = new FileWriter(filename, true)) {
@@ -66,7 +71,7 @@ public class Person {
         // TODO: If demerit point file exists, change name if ID updates
 
         // Check if user details are recorded in people.txt
-        index = getIndex();
+        int index = getIndex();
         if (index < 0) {
             System.out.println("User details not found");
             return false;
@@ -87,8 +92,7 @@ public class Person {
 
         // Calculate person's age
         int birthYear = Integer.parseInt(birthDate.split("-")[2]);
-        Date currentDate = new Date();
-        int currentYear = currentDate.getYear() + 1900;
+        int currentYear = LocalDate.now().getYear();
         int age = currentYear - birthYear;
 
         // CONDITION 1: If birthdate is being changed, cannot update any other value
@@ -106,8 +110,8 @@ public class Person {
         }
 
         // CONDITION 3: If first character/digit of person's id is an even number, ID cannot be changed
-        int firstDigit = Character.getNumericValue(ID.charAt(0));
-        if (firstDigit % 2 == 0 && !inID.equals(ID)) {
+        int firstDigit = Character.getNumericValue(personID.charAt(0));
+        if (firstDigit % 2 == 0 && !inID.equals(personID)) {
             System.out.println("Initial ID digit is even. ID cannot be changed. No changes have been made.");
             return false;
         }
@@ -272,7 +276,7 @@ public class Person {
 
     private int getIndex () {
         // Add the contents of the "people.txt" file to a scanner
-        Scanner scanner = new Scanner(File(filename));
+        Scanner scanner = new Scanner(new java.io.File(filename));
         List<String[]> people = new ArrayList<>();
 
         // Append each line to the list in a String array of each value
@@ -288,9 +292,9 @@ public class Person {
         // people[i][4] = Birth Date
 
         // Check for user in "database"
-        int userIndex == -1;
+        int userIndex = -1;
         for (int i = 0; i < people.size(); i++) {
-            if (people.get(i)[0].equals(currID)) {
+            if (people.get(i)[0].equals(personID)) {
                 userIndex = i;
                 break;
             }

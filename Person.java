@@ -276,13 +276,19 @@ public class Person {
 
     private int getIndex () {
         // Add the contents of the "people.txt" file to a scanner
-        Scanner scanner = new Scanner(new java.io.File(filename));
         List<String[]> people = new ArrayList<>();
+        try {
+            Scanner scanner = new Scanner(new java.io.File(filename));
 
-        // Append each line to the list in a String array of each value
-        while (scanner.hasNextLine()) {
-            String curr = scanner.nextLine();
-            people.add(curr.split(","));
+            // Append each line to the list in a String array of each value
+            while (scanner.hasNextLine()) {
+                String curr = scanner.nextLine();
+                people.add(curr.split(","));
+            }
+            scanner.close(); // Always close resources
+        } catch (java.io.FileNotFoundException e) {
+            System.out.println("System error: people.txt not found");
+            return -1;
         }
 
         // people[i][0] = ID

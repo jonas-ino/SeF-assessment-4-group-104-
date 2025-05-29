@@ -1,6 +1,7 @@
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Date;
-
+import java.io.File;
 // addPerson imports
 import java.io.FileWriter;
 import java.io.IOException;
@@ -12,10 +13,13 @@ import java.time.format.ResolverStyle;
 // updatePersonalDetails imports
 import java.util.Scanner;
 import java.util.List;
+import java.util.Map;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+
+
 
 public class Person {
     private String personID;
@@ -129,13 +133,99 @@ public class Person {
         return true;
     }
 
-    public String addDemeritPoints(){
-        // Add demerit points function creates/updates file named "{id}_demerit" and records the date of each new demerit point addition
-        // Updates isSuspended to true if total demerit points within 2 years is >= 12
 
-        // MIGHT NOT NEED TO RECORD ALL, MAYBE JUST LATEST INFRINGEMENT
-        return "";
+
+
+
+
+    //TODO: This method adds demerit points for a given person in a TXT file.
+    public String addDemeritPoints(String currentID, String currentBirthDate, HashMap<Date, Integer> currentDemeritPoints){
+        //and the addDemeritPoints function should return "Success". Otherwise, the addDemeritPoints function should return "Failed".
+        String exitMessage = "Success";
+        boolean isSuspended = false;
+        int totalValidPoints = 0;
+
+        // HashMap<Date, Integer> validEntries;
+        Map<Date, Integer> validEntries = new LinkedHashMap<>();
+
+        //Condition 2: The demerit points must be a whole number between 1-6
+        for (Integer demerits : currentDemeritPoints.values()) {
+            if (demerits < 1 || demerits > 6) {
+            exitMessage = "Failed";
+            }
+        }
+
+        //Condition 1: The format of the date of the offense should follow the following format: DD-MM-YYYY. Example: 15-11-1990
+        Date currentDate = new Date();
+        Date twoYearsAgo = new Date();
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(currentDate);
+        cal.add(Calendar.YEAR, -2);
+        twoYearsAgo = cal.getTime();
+
+
+        // Find Age
+        int birthYear = Integer.parseInt(currentBirthDate.split("-")[2]);
+        int currentYear = LocalDate.now().getYear();
+        int age = currentYear - birthYear;
+
+        for (Date deductionDate : currentDemeritPoints.keySet()) {
+            if (!deductionDate.before(twoYearsAgo)) {
+                totalValidPoints += currentDemeritPoints.get(deductionDate);
+                validEntries.put(deductionDate, currentDemeritPoints.get(deductionDate));
+            }
+        }
+
+        //Condition 3: If the person is under 21, the isSuspended variable should be set to true if the total demerit points within two years exceed 6.
+        //If the person is over 21, the isSuspended variable should be set to true if the total demerit points within two years exceed 12.
+        if (age < 21 && age > 0) {
+            if (totalValidPoints >= 6) {
+                isSuspended = true;
+            }
+        } else if (age >= 21) {
+            if (totalValidPoints >= 12) {
+                isSuspended = true;
+            }
+        } else {
+            exitMessage = "Failed";
+        }
+
+
+        //Instruction: If the above conditions and any other conditions you may want to consider are met, the demerit points for a person should be inserted into the TXT file,
+        // Add demerit points function creates/updates file named "{id}_demerit" and records the date of each new demerit point addition
+        if (exitMessage.equals("Success")) {
+            String demeritFile = currentID + "_demerit.txt";
+            File checkFile = new File(demeritFile);
+
+            // Completely rewrites file for new demerits
+            if (checkFile.exists()) {
+                checkFile.delete();
+            }
+
+            try (FileWriter writer = new FileWriter(checkFile)) {
+
+                for (Map.Entry<Date, Integer> violations : validEntries.entrySet()) {
+                    writer.write(String.format("%1$td-%1$tm-%1$tY,%2$d\n", violations.getKey(), violations.getValue()));
+                }
+                
+            } catch (IOException e) {
+                e.printStackTrace();
+                exitMessage = "Failed";
+            }
+        }
+
+        return exitMessage;
     }
+
+
+
+
+
+
+
+
+
     // checks to see if the address is in valid format
     private boolean validAddress(String inputAddress){
         //splits address up so it can be check individually later on

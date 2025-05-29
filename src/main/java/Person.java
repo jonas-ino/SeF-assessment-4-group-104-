@@ -31,15 +31,20 @@ public class Person {
     private String filename = "people.txt";
 
     public Person(String personID, String firstName, String lastName, String birthDate, String address){
-        if (personID == null || firstName == null || lastName == null || birthDate == null || address == null) {
-            System.out.println("You are getting kicked out for entering null value");
-            throw new IllegalArgumentException("Null is not allowed");
+        if (personID == null || personID.trim().isEmpty() ||
+            firstName == null || firstName.trim().isEmpty() ||
+            lastName == null || lastName.trim().isEmpty() ||
+            birthDate == null || birthDate.trim().isEmpty() ||
+            address == null || address.trim().isEmpty()) {
+            
+            System.out.println("Error: One or more fields are null or empty.");
+            throw new IllegalArgumentException("Null or empty values are not allowed.");
         } else{
-        this.personID = personID;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.address = address;
-        this.birthDate = birthDate;
+            this.personID = personID;
+            this.firstName = firstName;
+            this.lastName = lastName;
+            this.address = address;
+            this.birthDate = birthDate;
         }
     }
     //add person to people.txt file for storage
@@ -228,6 +233,10 @@ public class Person {
 
     // checks to see if the address is in valid format
     private boolean validAddress(String inputAddress){
+        /*Condition 2: The address of the Person should follow the following format: Street Number|Street|City|State|Country.  
+        The State should be only Victoria. Example: 32|Highland Street|Melbourne|Victoria|Australia. */
+
+
         //splits address up so it can be check individually later on
         String[] parts = inputAddress.split("\\|");
         if (parts.length != 5) {
@@ -243,6 +252,9 @@ public class Person {
         return true;
     }
     private boolean validDate(String date){
+        //Condition 3: The format of the birthdate of the person should follow the following format: DD-MM-YYYY. Example: 15-11-1990
+
+
         //creates a pattern and checks the pattern with the user date
         Pattern pattern = Pattern.compile("^\\d{2}-\\d{2}-\\d{4}$");
         DateTimeFormatter formater = DateTimeFormatter.ofPattern("dd-MM-uuuu")
@@ -278,6 +290,10 @@ public class Person {
     }
 
     private boolean validId(String inputPersonID){
+        
+        /*Condition 1: personID should be exactly 10 characters long; the first two characters should be numbers between 2 and 9, 
+        there should be at least two special characters 
+        between characters 3 and 8, and the last two characters should be uppercase letters (A-Z). Example: "56s_d%&fAB" */
         //checks length of id
         if(inputPersonID.length() != 10){
             System.out.println("User error: ID length is not 10");

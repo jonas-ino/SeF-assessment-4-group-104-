@@ -20,7 +20,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 
-
 public class Person {
     private String personID;
     private String firstName;
@@ -47,7 +46,9 @@ public class Person {
             this.birthDate = birthDate;
         }
     }
-    //add person to people.txt file for storage
+
+
+    // Adds the details of Person to the "people.txt" file for storage
     public boolean addPerson(){
         // checks to see if address, birth date, id and name is in correct format
         if (!validId(personID) || !validName(firstName) || !validName(lastName) || !validDate(birthDate) || !validAddress(address)) {
@@ -66,14 +67,9 @@ public class Person {
         return true;
     }
 
+    // Updates user information based on the data passed on by the API. .txt file data is updated accordingly.
     public boolean updatePersonalDetails(String inID, String inFirstName, String inLastName, String inBirthDate, String inAddress){
-        // Updates user details passed on by the API
-
         // ASSUMPTION: If the User does not change specific values, the current values are passed along
-
-        // TODO: Ensure no values have commas
-        // TODO: Update private values in the addPerson function, or make a proper constructor
-        // TODO: If demerit point file exists, change name if ID updates
 
         // Check if user details are recorded in people.txt
         int index = getIndex();
@@ -83,15 +79,15 @@ public class Person {
         }
 
         // Check if any input variables are NULL, and if so, set them to the current details
-        if (inFirstName == null) { inFirstName = firstName; }
-        if (inLastName == null)  { inLastName = lastName; }
-        if (inID == null)        { inID = personID; }
-        if (inBirthDate == null) { inBirthDate = birthDate; }
-        if (inAddress == null)   { inAddress = address; }
+        if (inFirstName == null || inID.trim().isEmpty())        { inFirstName = firstName; }
+        if (inLastName == null  || inFirstName.trim().isEmpty()) { inLastName = lastName; }
+        if (inID == null        || inLastName.trim().isEmpty())  { inID = personID; }
+        if (inBirthDate == null || inBirthDate.trim().isEmpty()) { inBirthDate = birthDate; }
+        if (inAddress == null   || inAddress.trim().isEmpty())   { inAddress = address; }
 
         // Ensures that all new values are valid
         if (!validId(inID) || !validName(inFirstName) || !validName(inLastName) || !validDate(inBirthDate) || !validAddress(inAddress)) {
-            System.out.println("Failure");
+            System.out.println("Invalid update details. No changes have been made.");
             return false;
         }
 
@@ -139,11 +135,7 @@ public class Person {
     }
 
 
-
-
-
-
-    //TODO: This method adds demerit points for a given person in a TXT file.
+    // Adds demerit points for a given person in a TXT file.
     public String addDemeritPoints(String currentID, String currentBirthDate, HashMap<Date, Integer> currentDemeritPoints){
         //and the addDemeritPoints function should return "Success". Otherwise, the addDemeritPoints function should return "Failed".
         String exitMessage = "Success";
@@ -153,14 +145,14 @@ public class Person {
         // HashMap<Date, Integer> validEntries;
         Map<Date, Integer> validEntries = new LinkedHashMap<>();
 
-        //Condition 2: The demerit points must be a whole number between 1-6
+        //CONDITION 2: The demerit points must be a whole number between 1-6
         for (Integer demerits : currentDemeritPoints.values()) {
             if (demerits < 1 || demerits > 6) {
             exitMessage = "Failed";
             }
         }
 
-        //Condition 1: The format of the date of the offense should follow the following format: DD-MM-YYYY. Example: 15-11-1990
+        //CONDITION 1: The format of the date of the offense should follow the following format: DD-MM-YYYY. Example: 15-11-1990
         Date currentDate = new Date();
         Date twoYearsAgo = new Date();
 
@@ -182,7 +174,7 @@ public class Person {
             }
         }
 
-        //Condition 3: If the person is under 21, the isSuspended variable should be set to true if the total demerit points within two years exceed 6.
+        //CONDITION 3: If the person is under 21, the isSuspended variable should be set to true if the total demerit points within two years exceed 6.
         //If the person is over 21, the isSuspended variable should be set to true if the total demerit points within two years exceed 12.
         if (age < 21 && age > 0) {
             if (totalValidPoints >= 6) {
@@ -222,13 +214,6 @@ public class Person {
 
         return exitMessage;
     }
-
-
-
-
-
-
-
 
 
     // checks to see if the address is in valid format

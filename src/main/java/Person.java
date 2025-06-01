@@ -233,11 +233,12 @@ public class Person {
 
     // checks to see if the address is in valid format
     private boolean validAddress(String inputAddress){
-        /*Condition 2: The address of the Person should follow the following format: Street Number|Street|City|State|Country.  
-        The State should be only Victoria. Example: 32|Highland Street|Melbourne|Victoria|Australia. */
+        // CONDITION 2: address should follow the following format:
+        //      Street Number|Street|City|State|Country
+        //      The State should be only Victoria
+        //      Example: 32|Highland Street|Melbourne|Victoria|Australia
 
-
-        //splits address up so it can be check individually later on
+        //splits address up so it can be checked individually later on
         String[] parts = inputAddress.split("\\|");
         if (parts.length != 5) {
             System.out.println("User error: Invalid Address format");
@@ -252,7 +253,9 @@ public class Person {
         return true;
     }
     private boolean validDate(String date){
-        //Condition 3: The format of the birthdate of the person should follow the following format: DD-MM-YYYY. Example: 15-11-1990
+        // CONDITION 3: birthDate should follow the following format:
+        //      DD-MM-YYYY
+        //      Example: 15-11-1990
 
 
         //creates a pattern and checks the pattern with the user date
@@ -290,11 +293,13 @@ public class Person {
     }
 
     private boolean validId(String inputPersonID){
-        
-        /*Condition 1: personID should be exactly 10 characters long; the first two characters should be numbers between 2 and 9, 
-        there should be at least two special characters 
-        between characters 3 and 8, and the last two characters should be uppercase letters (A-Z). Example: "56s_d%&fAB" */
-        //checks length of id
+        // CONDITION 1: personID should follow the following format:
+        //       personID should be exactly 10 characters long
+        //       The first two characters should be numbers between 2 and 9
+        //       There should be at least two special characters between characters 3 and 8
+        //       The last two characters should be uppercase letters (A-Z)
+        //       Example: "56s_d%&fAB"
+
         if(inputPersonID.length() != 10){
             System.out.println("User error: ID length is not 10");
             return false;

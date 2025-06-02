@@ -20,7 +20,15 @@ class PersonTest {
     @AfterEach
     void tearDown() throws IOException {
         person = null;
-        Files.deleteIfExists(Paths.get("person.txt"));
+        System.out.println("UNIT TEST COMPLETE. REMOVING person.txt\n");
+        Files.deleteIfExists(Paths.get("people.txt"));
+
+        // If deleting file doesn't work:
+        /*
+        try (FileWriter writer = new FileWriter("person.txt", false)) {
+            writer.write("");
+        }
+         */
     }
 
     // ADD PERSON
@@ -39,7 +47,7 @@ class PersonTest {
         person.addPerson();
         boolean result = (person.updatePersonalDetails(null, null, null, null, null));
         if (result) {
-            System.out.println("TEST SUCCESS: " + "Update with all null values\n");
+            System.out.println("TEST SUCCESS: " + "Update with all null values");
         }
         assertTrue(result);
     }
@@ -48,7 +56,7 @@ class PersonTest {
         person.addPerson();
         boolean result = (person.updatePersonalDetails(null, null, null, "01-02-2000", null));
         if (result) {
-            System.out.println("TEST SUCCESS: " + "Update birth date with all null values\n");
+            System.out.println("TEST SUCCESS: " + "Update birth date with all null values");
         }
         assertTrue(result);
     }
@@ -58,7 +66,7 @@ class PersonTest {
         person.addPerson();
         boolean result = (person.updatePersonalDetails("3333!!33AA", "GREGORY", "CAINE", null, "10|Main Street|Melbourne|Victoria|Australia"));
         if (result) {
-            System.out.println("TEST SUCCESS: " + "Update all values except birth date\n");
+            System.out.println("TEST SUCCESS: " + "Update all values except birth date");
         }
         assertTrue(result);
     }
@@ -68,7 +76,7 @@ class PersonTest {
         person.addPerson();
         boolean result = (person.updatePersonalDetails(null, null, null, null, "10|Main Street|Melbourne|Victoria|Australia"));
         if (result) {
-            System.out.println("TEST SUCCESS: " + "Update address when user is over 18\n");
+            System.out.println("TEST SUCCESS: " + "Update address when user is over 18");
         }
         assertTrue(result);
     }
@@ -79,7 +87,7 @@ class PersonTest {
         person.addPerson();
         boolean result = (person.updatePersonalDetails("1111111111", null, null, null, null));
         if (!result) {
-            System.out.println("TEST SUCCESS: " + "Update with an invalid ID\n");
+            System.out.println("TEST SUCCESS: " + "Update with an invalid ID");
         }
         assertFalse(result);
     }
@@ -88,7 +96,7 @@ class PersonTest {
         person.addPerson();
         boolean result = (person.updatePersonalDetails(null, null, null, null, "13 Forrest Street, Melbourne, Victoria, Australia"));
         if (!result) {
-            System.out.println("TEST SUCCESS: " + "Update with an invalid address\n");
+            System.out.println("TEST SUCCESS: " + "Update with an invalid address");
         }
         assertFalse(result);
     }
@@ -97,7 +105,7 @@ class PersonTest {
         person.addPerson();
         boolean result = (person.updatePersonalDetails(null, null, null, "01.02.1953", null));
         if (!result) {
-            System.out.println("TEST SUCCESS: " + "Update with an invalid birth date\n");
+            System.out.println("TEST SUCCESS: " + "Update with an invalid birth date");
         }
         assertFalse(result);
     }
@@ -108,7 +116,7 @@ class PersonTest {
         person.addPerson();
         boolean result = (person.updatePersonalDetails("3456!!78AC", null, null, "01-01-2000", null));
         if (!result) {
-            System.out.println("TEST SUCCESS: " + "Update birth date and ID simultaneously\n");
+            System.out.println("TEST SUCCESS: " + "Update birth date and ID simultaneously");
         }
         assertFalse(result);
     }
@@ -117,7 +125,7 @@ class PersonTest {
         person.addPerson();
         boolean result = (person.updatePersonalDetails(null, "MARK", null, "01-01-2000", null));
         if (!result) {
-            System.out.println("TEST SUCCESS: " + "Update birth date and first name simultaneously\n");
+            System.out.println("TEST SUCCESS: " + "Update birth date and first name simultaneously");
         }
         assertFalse(result);
     }
@@ -126,7 +134,7 @@ class PersonTest {
         person.addPerson();
         boolean result = (person.updatePersonalDetails(null, null, "FARRUGIA", "01-01-2000", null) );
         if (!result) {
-            System.out.println("TEST SUCCESS: " + "Update birth date and last name simultaneously\n");
+            System.out.println("TEST SUCCESS: " + "Update birth date and last name simultaneously");
         }
         assertFalse(result);
     }
@@ -135,7 +143,7 @@ class PersonTest {
         person.addPerson();
         boolean result = (person.updatePersonalDetails(null, null, null, "01-01-2000", "32|Blackwood Avenue|Melbourne|Victoria|Australia"));
         if (!result) {
-            System.out.println("TEST SUCCESS: " + "Update birth date and address simultaneously\n");
+            System.out.println("TEST SUCCESS: " + "Update birth date and address simultaneously");
         }
         assertFalse(result);
     }
@@ -147,7 +155,7 @@ class PersonTest {
         youngPerson.addPerson();
         boolean result = (youngPerson.updatePersonalDetails(null, null, null, null, "73|Garbage Street|Glenferrie|Victoria|Australia "));
         if (!result) {
-            System.out.println("TEST SUCCESS: " + "Update address when user is below 18 (1)\n");
+            System.out.println("TEST SUCCESS: " + "Update address when user is below 18 (1)");
         }
         assertFalse(result);
     }
@@ -157,7 +165,7 @@ class PersonTest {
         youngPerson.addPerson();
         boolean result = (youngPerson.updatePersonalDetails(null, null, null, null, "24|Hainthorpe Grove|Mulgrave|Victoria|Australia "));
         if (!result) {
-            System.out.println("TEST SUCCESS: " + "Update address when user is below 18 (2)\n");
+            System.out.println("TEST SUCCESS: " + "Update address when user is below 18 (2)");
         }
         assertFalse(result);
     }
@@ -167,7 +175,7 @@ class PersonTest {
         youngPerson.addPerson();
         boolean result = (youngPerson.updatePersonalDetails(null, null, null, null, "19|Eisner Street|St Albans|Victoria|Australia"));
         if (!result) {
-            System.out.println("TEST SUCCESS: " + "Update address when user is below 18 (3)\n");
+            System.out.println("TEST SUCCESS: " + "Update address when user is below 18 (3)");
         }
         assertFalse(result);
     }
@@ -180,7 +188,7 @@ class PersonTest {
         evenPerson.addPerson();
         boolean result = (evenPerson.updatePersonalDetails("332$53#2AB", null, null, null, null));
         if (!result) {
-            System.out.println("TEST SUCCESS: " + "Update ID when existing ID begins with an even number (1)\n");
+            System.out.println("TEST SUCCESS: " + "Update ID when existing ID begins with an even number (1)");
         }
         assertFalse(result);
     }
@@ -190,7 +198,7 @@ class PersonTest {
         evenPerson.addPerson();
         boolean result = (evenPerson.updatePersonalDetails("78^*7PEPSI", null, null, null, null));
         if (!result) {
-            System.out.println("TEST SUCCESS: " + "Update ID when existing ID begins with an even number (2)\n");
+            System.out.println("TEST SUCCESS: " + "Update ID when existing ID begins with an even number (2)");
         }
         assertFalse(result);
     }
@@ -200,7 +208,7 @@ class PersonTest {
         evenPerson.addPerson();
         boolean result = (evenPerson.updatePersonalDetails("66386!%POJ", null, null, null, null));
         if (!result) {
-            System.out.println("TEST SUCCESS: " + "Update ID when existing ID begins with an even number (3)\n");
+            System.out.println("TEST SUCCESS: " + "Update ID when existing ID begins with an even number (3)");
         }
         assertFalse(result);
     }

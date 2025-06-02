@@ -22,13 +22,6 @@ class PersonTest {
         person = null;
         System.out.println("UNIT TEST COMPLETE. REMOVING person.txt\n");
         Files.deleteIfExists(Paths.get("people.txt"));
-
-        // If deleting file doesn't work:
-        /*
-        try (FileWriter writer = new FileWriter("person.txt", false)) {
-            writer.write("");
-        }
-         */
     }
 
     // ADD PERSON

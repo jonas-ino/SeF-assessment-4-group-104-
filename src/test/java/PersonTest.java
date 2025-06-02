@@ -81,6 +81,19 @@ class PersonTest {
         assertTrue(result);
     }
 
+    // TEST CASE 1.5: Update Person with no matching ID in user.txt
+    @Test
+    void updateWithNoRecord() {
+        // add Person so that people.txt exists
+        person.addPerson();
+        Person dummy = new Person("1111$$11AA", "TEST", "SUBJECT", "10-10-1910", "10|Place Street|Melbourne|Victoria|Australia");
+        boolean result = (dummy.updatePersonalDetails(null, "NORECORD", null, null, null));
+        if (!result) {
+            System.out.println("TEST SUCCESS: " + "Update user when no matching record can be found");
+        }
+        assertFalse(result);
+    }
+
     //TEST CASE 2: Update Person with invalid inputs
     @Test
     void updateInvalidID() {

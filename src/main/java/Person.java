@@ -142,12 +142,16 @@ public class Person {
         boolean isSuspended = false;
         int totalValidPoints = 0;
 
+        if (!validId(currentID) || !validDate(currentBirthDate)) {
+            exitMessage = "Failure";
+        }
+
         // HashMap<Date, Integer> validEntries;
         Map<Date, Integer> validEntries = new LinkedHashMap<>();
 
         //CONDITION 2: The demerit points must be a whole number between 1-6
         for (Integer demerits : currentDemeritPoints.values()) {
-            if (demerits < 1 || demerits > 6) {
+            if (demerits <= 1 || demerits >= 6) {
             exitMessage = "Failed";
             }
         }

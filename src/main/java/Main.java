@@ -31,3 +31,4 @@ public class Main {
         p.addDemeritPoints("37GDG^#@AB", "09-08-2000", currentDemeritPoints);
     }
 }
+

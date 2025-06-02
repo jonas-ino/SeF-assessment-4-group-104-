@@ -29,6 +29,11 @@ public class Person {
     private HashMap<Date, Integer> demeritPoints;
     private String filename = "people.txt";
 
+    public Person(){
+        System.out.println("So empty");
+    }
+    
+    
     public Person(String personID, String firstName, String lastName, String birthDate, String address){
         if (personID == null || personID.trim().isEmpty() ||
             firstName == null || firstName.trim().isEmpty() ||

@@ -321,21 +321,6 @@ public class Person {
         return true;
     }
 
-    /*
-    private boolean validName(String inputFirstName,  String inputLastName){
-        //create full name
-        String mashedFullName = inputFirstName + inputLastName;
-        //checked to see if the full name is invalid
-        for (char c : mashedFullName.toCharArray()) {
-            if (Character.isDigit(c) || !Character.isLetterOrDigit(c)) {
-                System.out.println("User error: There is a digit or special character in name");
-                return false;
-            }
-        }
-        return true;
-    }
-    */
-
     private boolean validName(String input){
         // Ensures that names are only letters
         for (char c : input.toCharArray()) {
@@ -343,25 +328,6 @@ public class Person {
                 System.out.println("User error: There is a digit or special character in name");
                 return false;
             }
-        }
-        return true;
-    }
-
-    private boolean validAge(int age, int requiredAge){
-        /*try {
-            int ageInt = Integer.parseInt(age);
-        } catch (NumberFormatException e) {
-            System.out.println("User error: Age is not a number");
-        }*/
-        //checks to see if age is negative
-        if(age < 0){
-             System.out.println("User error: Age is a negative number");
-            return false;
-        }
-        //checks to see if age gits the requirement of the age in the selected task
-        if(age < requiredAge){
-            System.out.println("User error: Age is below required age");
-            return false;
         }
         return true;
     }

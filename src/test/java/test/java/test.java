@@ -1,4 +1,8 @@
-package src.main;
+package source.test.java;
+
+import Person;
+
+private Person person;
 
 public class test {
     
@@ -11,8 +15,6 @@ public class test {
 
     @Test 
     void test1(){
-      
-
-
+        person.updateUserDetails(null, null, null, null, null);
     }
 }

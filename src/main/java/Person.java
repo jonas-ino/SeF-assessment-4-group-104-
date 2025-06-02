@@ -52,7 +52,7 @@ public class Person {
     public boolean addPerson(){
         // checks to see if address, birth date, id and name is in correct format
         if (!validId(personID) || !validName(firstName) || !validName(lastName) || !validDate(birthDate) || !validAddress(address)) {
-            System.out.println("Failure");
+            System.out.println("User error: Inputs do not fulfill criteria");
             return false;
         }
         // writes details into file
@@ -63,7 +63,7 @@ public class Person {
             return false;
         }
         
-        System.out.println("Success");
+        System.out.println("Success: Person added to RoadRegistry");
         return true;
     }
 

@@ -59,7 +59,7 @@ public class Person {
         try (FileWriter writer = new FileWriter(filename, true)) {
             writer.write(personID + "," + lastName + "," +  firstName + "," + address + "," + birthDate + "\n");
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("System error: Failure to write in file");
             return false;
         }
         

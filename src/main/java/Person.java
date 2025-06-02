@@ -76,19 +76,19 @@ public class Person {
     public boolean updatePersonalDetails(String inID, String inFirstName, String inLastName, String inBirthDate, String inAddress){
         // ASSUMPTION: If the User does not change specific values, the current values are passed along
 
+        // Check if any input variables are NULL, and if so, set them to the current details
+        if (inFirstName == null)  { inFirstName = firstName; }
+        if (inLastName == null)   { inLastName = lastName; }
+        if (inID == null)         { inID = personID; }
+        if (inBirthDate == null)  { inBirthDate = birthDate; }
+        if (inAddress == null)    { inAddress = address; }
+
         // Check if user details are recorded in people.txt
         int index = getIndex();
         if (index < 0) {
             System.out.println("User details not found");
             return false;
         }
-
-        // Check if any input variables are NULL, and if so, set them to the current details
-        if (inFirstName == null || inID.trim().isEmpty())        { inFirstName = firstName; }
-        if (inLastName == null  || inFirstName.trim().isEmpty()) { inLastName = lastName; }
-        if (inID == null        || inLastName.trim().isEmpty())  { inID = personID; }
-        if (inBirthDate == null || inBirthDate.trim().isEmpty()) { inBirthDate = birthDate; }
-        if (inAddress == null   || inAddress.trim().isEmpty())   { inAddress = address; }
 
         // Ensures that all new values are valid
         if (!validId(inID) || !validName(inFirstName) || !validName(inLastName) || !validDate(inBirthDate) || !validAddress(inAddress)) {
@@ -266,8 +266,8 @@ public class Person {
         //checks to see if the values of the dates are valid
         try {
             if(!((Integer.parseInt(parts[2]) > 1900 && Integer.parseInt(parts[2]) <= 2025
-            && Integer.parseInt(parts[0]) > 0 && Integer.parseInt(parts[0]) <31)
-            && Integer.parseInt(parts[1]) > 1 && Integer.parseInt(parts[1]) <= 12)){
+            && Integer.parseInt(parts[0]) > 0 && Integer.parseInt(parts[0]) <=31)
+            && Integer.parseInt(parts[1]) > 0 && Integer.parseInt(parts[1]) <= 12)){
                 System.out.println("User error: Date has invalid values");
                 return false;
 

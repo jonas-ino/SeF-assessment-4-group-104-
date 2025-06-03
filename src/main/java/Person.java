@@ -139,6 +139,17 @@ public class Person {
         return true;
     }
 
+    public void deleteDemeritFile(String fileID) {
+        // Remove File After Test
+        String testFile = fileID + "_demerit.txt";
+        File checkFile = new File(testFile);
+        System.out.println(testFile);
+
+        if (checkFile.exists()) {
+            checkFile.delete();
+        }
+    }
+
 
     // Adds demerit points for a given person in a TXT file.
     public String addDemeritPoints(String currentID, String currentBirthDate, HashMap<Date, Integer> currentDemeritPoints){
@@ -212,10 +223,8 @@ public class Person {
             String demeritFile = currentID + "_demerit.txt";
             File checkFile = new File(demeritFile);
 
-            // Completely rewrites file for new demerits
-            if (checkFile.exists()) {
-                checkFile.delete();
-            }
+
+            deleteDemeritFile(currentID);
 
             try (FileWriter writer = new FileWriter(checkFile)) {
 

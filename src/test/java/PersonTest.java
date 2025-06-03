@@ -3,6 +3,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -244,6 +245,10 @@ class PersonTest {
         Person testPerson = new Person("28@d#r^gXZ", "null", "null", "14-03-1994", "null");
 
         String result = testPerson.addDemeritPoints(testPerson.personID(), testPerson.personBD(), demeritTest);
+
+        // Remove File After Test
+        testPerson.deleteDemeritFile(testPerson.personID());
+
         assertEquals("Success", result);
     }
 
@@ -265,6 +270,10 @@ class PersonTest {
         Person testPerson = new Person("26!s#r^mLO", "null", "null", "23-08-1999", "null");
 
         String result = testPerson.addDemeritPoints(testPerson.personID(), testPerson.personBD(), demeritTest);
+                
+        // Remove File After Test
+        testPerson.deleteDemeritFile(testPerson.personID());
+
         assertEquals("Success", result);
     }
 

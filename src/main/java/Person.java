@@ -32,15 +32,15 @@ public class Person {
     public Person(){
         System.out.println("So empty");
     }
-    
-    
+
+
     public Person(String personID, String firstName, String lastName, String birthDate, String address){
         if (personID == null || personID.trim().isEmpty() ||
             firstName == null || firstName.trim().isEmpty() ||
             lastName == null || lastName.trim().isEmpty() ||
             birthDate == null || birthDate.trim().isEmpty() ||
             address == null || address.trim().isEmpty()) {
-            
+
             System.out.println("Error: One or more fields are null or empty.");
             throw new IllegalArgumentException("Null or empty values are not allowed.");
         } else{
@@ -70,7 +70,7 @@ public class Person {
 
             String[] street = parts[1].split(" ");
 
-            
+
             parts[1] = "";
             for(int i = 0; i< street.length; i++){
                 parts[1] += street[i].substring(0, 1).toUpperCase() + street[i].substring(1).toLowerCase();
@@ -82,21 +82,21 @@ public class Person {
             for(int i = 2; i< parts.length; i++){
                 parts[i] = parts[i].substring(0, 1).toUpperCase() + parts[i].substring(1).toLowerCase();
             }
-            
+
             for(int i = 0; i< parts.length; i++){
                 address += parts[i];
                 if(i < parts.length - 1){
                     address += "|";
                 }
             }
-            
+
 
             writer.write(personID + "," + lastName + "," +  firstName + "," + address + "," + birthDate + "\n");
         } catch (IOException e) {
             System.out.println("System error: Failure to write in file");
             return false;
         }
-        
+
         System.out.println("Success: Person added to RoadRegistry");
         return true;
     }
@@ -124,6 +124,13 @@ public class Person {
             System.out.println("Invalid update details. No changes have been made.");
             return false;
         }
+
+        // Capitalise all letters
+        inID = inID.toUpperCase();
+        inFirstName = inFirstName.toUpperCase();
+        inLastName = inLastName.toUpperCase();
+        inBirthDate = inBirthDate.toUpperCase();
+        inAddress = inAddress.toUpperCase();
 
         // Calculate person's age
         int birthYear = Integer.parseInt(birthDate.split("-")[2]);
@@ -208,7 +215,7 @@ public class Person {
             int birthYear = Integer.parseInt(currentBirthDate.split("-")[2]);
             int currentYear = LocalDate.now().getYear();
             age = currentYear - birthYear;
-        
+
             for (Date deductionDate : currentDemeritPoints.keySet()) {
                 if (!deductionDate.before(twoYearsAgo)) {
                     totalValidPoints += currentDemeritPoints.get(deductionDate);
@@ -218,7 +225,7 @@ public class Person {
         } else {
             exitMessage = "Failed";
         }
-            
+
 
         //CONDITION 3: If the person is under 21, the isSuspended variable should be set to true if the total demerit points within two years exceed 6.
         //If the person is over 21, the isSuspended variable should be set to true if the total demerit points within two years exceed 12.
@@ -251,7 +258,7 @@ public class Person {
                 for (Map.Entry<Date, Integer> violations : validEntries.entrySet()) {
                     writer.write(String.format("%1$td-%1$tm-%1$tY,%2$d\n", violations.getKey(), violations.getValue()));
                 }
-                
+
             } catch (IOException e) {
                 e.printStackTrace();
                 exitMessage = "Failed";
@@ -281,7 +288,7 @@ public class Person {
             System.out.println("User error: Invalid Address or outside address is outside victoria");
             return false;
         }
-        
+
         return true;
     }
     private boolean validDate(String date){

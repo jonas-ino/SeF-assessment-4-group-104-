@@ -62,6 +62,35 @@ public class Person {
         }
         // writes details into file
         try (FileWriter writer = new FileWriter(filename, true)) {
+            //format the information in the text file so it is more readable
+            lastName = lastName.substring(0, 1).toUpperCase() + lastName.substring(1).toLowerCase();
+            firstName = firstName.substring(0, 1).toUpperCase() + firstName.substring(1).toLowerCase();
+            String[] parts = address.split("\\|");
+            address = "";
+
+            String[] street = parts[1].split(" ");
+
+            
+            parts[1] = "";
+            for(int i = 0; i< street.length; i++){
+                parts[1] += street[i].substring(0, 1).toUpperCase() + street[i].substring(1).toLowerCase();
+                if(i < street.length - 1){
+                    parts[1] += " ";
+                }
+            }
+
+            for(int i = 2; i< parts.length; i++){
+                parts[i] = parts[i].substring(0, 1).toUpperCase() + parts[i].substring(1).toLowerCase();
+            }
+            
+            for(int i = 0; i< parts.length; i++){
+                address += parts[i];
+                if(i < parts.length - 1){
+                    address += "|";
+                }
+            }
+            
+
             writer.write(personID + "," + lastName + "," +  firstName + "," + address + "," + birthDate + "\n");
         } catch (IOException e) {
             System.out.println("System error: Failure to write in file");
@@ -244,6 +273,7 @@ public class Person {
             System.out.println("User error: Invalid Address or outside address is outside victoria");
             return false;
         }
+        
         return true;
     }
     private boolean validDate(String date){

@@ -6,6 +6,9 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -222,9 +225,285 @@ class PersonTest {
 
 
     // ADD DEMERIT POINTS
-    // TEST CASE 1:
+    // TEST CASE 1: Check the function with valid inputs.
     @Test
-    void addDemeritPoints() {
+    void demeritValid1() {
+        // Prepare Demerit Hash
+        HashMap<Date, Integer> demeritTest = new HashMap<>();
+        
+        Calendar cal = Calendar.getInstance();
+
+        cal.set(2025, 1, 30);
+        demeritTest.put(cal.getTime(), 1);
+
+        cal.set(2024, 11, 17);
+        demeritTest.put(cal.getTime(), 3);
+
+
+        // Test Person
+        Person testPerson = new Person("28@d#r^gXZ", "null", "null", "14-03-1994", "null");
+
+        String result = testPerson.addDemeritPoints(testPerson.personID(), testPerson.personBD(), demeritTest);
+        assertEquals("Success", result);
     }
-    // TEST CASE 2:
+
+    @Test
+    void demeritValid2() {
+        // Prepare Demerit Hash
+        HashMap<Date, Integer> demeritTest = new HashMap<>();
+        
+        Calendar cal = Calendar.getInstance();
+
+        cal.set(2024, 2, 27);
+        demeritTest.put(cal.getTime(), 2);
+
+        cal.set(2024, 1, 18);
+        demeritTest.put(cal.getTime(), 3);
+
+
+        // Test Person
+        Person testPerson = new Person("26!s#r^mLO", "null", "null", "23-08-1999", "null");
+
+        String result = testPerson.addDemeritPoints(testPerson.personID(), testPerson.personBD(), demeritTest);
+        assertEquals("Success", result);
+    }
+
+
+    // TEST CASE 2: Check the function with invalid ID
+    @Test
+    void demeritInvalidID1() {
+
+        // Prepare Demerit Hash
+        HashMap<Date, Integer> demeritTest = new HashMap<>();
+        
+        Calendar cal = Calendar.getInstance();
+
+        cal.set(2024, 8, 25);
+        demeritTest.put(cal.getTime(), 4);
+
+        cal.set(2024, 6, 12);
+        demeritTest.put(cal.getTime(), 3);
+
+
+        // Test Person
+        Person testPerson = new Person("94s!_k&LM", "null", "null", "27-11-1986", "null");
+
+        String result = testPerson.addDemeritPoints(testPerson.personID(), testPerson.personBD(), demeritTest);
+        assertEquals("Failed", result);
+    }
+
+    @Test
+    void demeritInvalidID2() {
+        // Prepare Demerit Hash
+        HashMap<Date, Integer> demeritTest = new HashMap<>();
+        
+        Calendar cal = Calendar.getInstance();
+
+        cal.set(2024, 5, 8);
+        demeritTest.put(cal.getTime(), 5);
+
+        cal.set(2024, 4, 21);
+        demeritTest.put(cal.getTime(), 1);
+
+
+        // Test Person
+        Person testPerson = new Person("35&h$f@p2TR", "null", "null", "09-07-1993", "null");
+
+        String result = testPerson.addDemeritPoints(testPerson.personID(), testPerson.personBD(), demeritTest);
+        assertEquals("Failed", result);
+    }
+
+    @Test
+    void demeritInvalidID3() {
+        // Prepare Demerit Hash
+        HashMap<Date, Integer> demeritTest = new HashMap<>();
+        
+        Calendar cal = Calendar.getInstance();
+
+        cal.set(2024, 3, 4);
+        demeritTest.put(cal.getTime(), 6);
+
+        cal.set(2024, 1, 19);
+        demeritTest.put(cal.getTime(), 4);
+
+        // Test Person
+        Person testPerson = new Person("19x*+m!eJK", "null", "null", "02-02-2003", "null");
+
+        String result = testPerson.addDemeritPoints(testPerson.personID(), testPerson.personBD(), demeritTest);
+        assertEquals("Failed", result);
+    }
+
+    @Test
+    void demeritInvalidID4() {
+        // Prepare Demerit Hash
+        HashMap<Date, Integer> demeritTest = new HashMap<>();
+        
+        Calendar cal = Calendar.getInstance();
+
+        cal.set(2023, 12, 6);
+        demeritTest.put(cal.getTime(), 3);
+
+        cal.set(2023, 10, 27);
+        demeritTest.put(cal.getTime(), 2);
+
+
+        // Test Person
+        Person testPerson = new Person("62#qzdawAZ", "null", "null", "18-10-1992", "null");
+
+        String result = testPerson.addDemeritPoints(testPerson.personID(), testPerson.personBD(), demeritTest);
+        assertEquals("Failed", result);
+    }
+
+    @Test
+    void demeritInvalidID5() {
+        // Prepare Demerit Hash
+        HashMap<Date, Integer> demeritTest = new HashMap<>();
+        
+        Calendar cal = Calendar.getInstance();
+
+        cal.set(2023, 9, 11);
+        demeritTest.put(cal.getTime(), 4);
+
+        cal.set(2023, 8, 29);
+        demeritTest.put(cal.getTime(), 5);
+
+
+        // Test Person
+        Person testPerson = new Person("83!z%f@bLa", "null", "null", "25-05-1997", "null");
+
+        String result = testPerson.addDemeritPoints(testPerson.personID(), testPerson.personBD(), demeritTest);
+        assertEquals("Failed", result);
+    }
+
+
+    // TEST CASE 3: Check the function with invalid birth date
+    @Test
+    void demeritInvalidBD1() {
+        // Prepare Demerit Hash
+        HashMap<Date, Integer> demeritTest = new HashMap<>();
+        
+        Calendar cal = Calendar.getInstance();
+
+        cal.set(2023, 7, 3);
+        demeritTest.put(cal.getTime(), 2);
+
+        cal.set(2023, 6, 15);
+        demeritTest.put(cal.getTime(), 5);
+
+
+        // Test Person
+        Person testPerson = new Person("47^k#j!sER", "null", "null", "31-12-20001", "null");
+
+        String result = testPerson.addDemeritPoints(testPerson.personID(), testPerson.personBD(), demeritTest);
+        assertEquals("Failed", result);
+    }
+
+    @Test
+    void demeritInvalidBD2() {
+        // Prepare Demerit Hash
+        HashMap<Date, Integer> demeritTest = new HashMap<>();
+        
+        Calendar cal = Calendar.getInstance();
+
+        cal.set(2025, 2, 06);
+        demeritTest.put(cal.getTime(), 1);
+
+        cal.set(2024, 12, 11);
+        demeritTest.put(cal.getTime(), 6);
+
+
+        // Test Person
+        Person testPerson = new Person("58*r@l%zCV", "null", "null", "061-06-1989", "null");
+
+        String result = testPerson.addDemeritPoints(testPerson.personID(), testPerson.personBD(), demeritTest);
+        assertEquals("Failed", result);
+    }
+
+    @Test
+    void demeritInvalidBD3() {
+        // Prepare Demerit Hash
+        HashMap<Date, Integer> demeritTest = new HashMap<>();
+        
+        Calendar cal = Calendar.getInstance();
+
+        cal.set(2024, 9, 23);
+        demeritTest.put(cal.getTime(), 2);
+
+        cal.set(2024, 7, 07);
+        demeritTest.put(cal.getTime(), 3);
+
+
+        // Test Person
+        Person testPerson = new Person("69$w^m&eQW", "null", "null", "20-097-1996", "null");
+
+        String result = testPerson.addDemeritPoints(testPerson.personID(), testPerson.personBD(), demeritTest);
+        assertEquals("Failed", result);
+    }
+    
+
+    // TEST CASE 4: Check the function with invalid demerit date
+    @Test
+    void demeritInvalidDD1() {
+        // Prepare Demerit Hash
+        HashMap<Date, Integer> demeritTest = new HashMap<>();
+        
+        Calendar cal = Calendar.getInstance();
+
+        cal.set(20234, 5, 29);
+        demeritTest.put(cal.getTime(), 5);
+
+        cal.set(20124, 4, 13);
+        demeritTest.put(cal.getTime(), 6);
+
+
+        // Test Person
+        Person testPerson = new Person("72&v*g@dUI", "null", "null", "11-01-1984", "null");
+
+        String result = testPerson.addDemeritPoints(testPerson.personID(), testPerson.personBD(), demeritTest);
+        assertEquals("Failed", result);
+    }
+
+
+    // TEST CASE 5: Check the function with invalid demerit values
+    @Test
+    void demeritInvalidValues1() {
+        // Prepare Demerit Hash
+        HashMap<Date, Integer> demeritTest = new HashMap<>();
+        
+        Calendar cal = Calendar.getInstance();
+
+        cal.set(2023, 10, 14);
+        demeritTest.put(cal.getTime(), 7);
+
+        cal.set(2023, 9, 05);
+        demeritTest.put(cal.getTime(), 5);
+
+
+        // Test Person
+        Person testPerson = new Person("88^p@q%wNZ", "null", "null", "30-10-1990", "null");
+
+        String result = testPerson.addDemeritPoints(testPerson.personID(), testPerson.personBD(), demeritTest);
+        assertEquals("Failed", result);
+    }
+
+    @Test
+    void demeritInvalidValues2() {
+        // Prepare Demerit Hash
+        HashMap<Date, Integer> demeritTest = new HashMap<>();
+        
+        Calendar cal = Calendar.getInstance();
+
+        cal.set(2023, 7, 22);
+        demeritTest.put(cal.getTime(), 0);
+
+        cal.set(2023, 6, 10);
+        demeritTest.put(cal.getTime(), 3);
+
+
+        // Test Person
+        Person testPerson = new Person("53*f!g#bYT", "null", "null", "05-03-1995", "null");
+
+        String result = testPerson.addDemeritPoints(testPerson.personID(), testPerson.personBD(), demeritTest);
+        assertEquals("Failed", result);
+    }
 }

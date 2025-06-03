@@ -175,9 +175,12 @@ public class Person {
         String exitMessage = "Success";
         boolean isSuspended = false;
         int totalValidPoints = 0;
+        int age = 0;
+
+        System.out.println("test");
 
         if (!validId(currentID) || !validDate(currentBirthDate)) {
-            exitMessage = "Failure";
+            exitMessage = "Failed";
         }
 
         // HashMap<Date, Integer> validEntries;
@@ -185,7 +188,7 @@ public class Person {
 
         //CONDITION 2: The demerit points must be a whole number between 1-6
         for (Integer demerits : currentDemeritPoints.values()) {
-            if (demerits <= 1 || demerits >= 6) {
+            if (demerits < 1 || demerits > 6) {
             exitMessage = "Failed";
             }
         }
@@ -201,16 +204,21 @@ public class Person {
 
 
         // Find Age
-        int birthYear = Integer.parseInt(currentBirthDate.split("-")[2]);
-        int currentYear = LocalDate.now().getYear();
-        int age = currentYear - birthYear;
-
-        for (Date deductionDate : currentDemeritPoints.keySet()) {
-            if (!deductionDate.before(twoYearsAgo)) {
-                totalValidPoints += currentDemeritPoints.get(deductionDate);
-                validEntries.put(deductionDate, currentDemeritPoints.get(deductionDate));
+        if (validDate(currentBirthDate)) {
+            int birthYear = Integer.parseInt(currentBirthDate.split("-")[2]);
+            int currentYear = LocalDate.now().getYear();
+            age = currentYear - birthYear;
+        
+            for (Date deductionDate : currentDemeritPoints.keySet()) {
+                if (!deductionDate.before(twoYearsAgo)) {
+                    totalValidPoints += currentDemeritPoints.get(deductionDate);
+                    validEntries.put(deductionDate, currentDemeritPoints.get(deductionDate));
+                }
             }
+        } else {
+            exitMessage = "Failed";
         }
+            
 
         //CONDITION 3: If the person is under 21, the isSuspended variable should be set to true if the total demerit points within two years exceed 6.
         //If the person is over 21, the isSuspended variable should be set to true if the total demerit points within two years exceed 12.
@@ -403,6 +411,14 @@ public class Person {
             }
         }
         return userIndex;
+    }
+
+    public String personID() {
+        return personID;
+    }
+
+    public String personBD() {
+        return birthDate;
     }
 
 }

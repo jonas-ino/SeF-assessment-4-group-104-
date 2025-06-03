@@ -32,15 +32,15 @@ public class Person {
     public Person(){
         System.out.println("So empty");
     }
-    
-    
+
+
     public Person(String personID, String firstName, String lastName, String birthDate, String address){
         if (personID == null || personID.trim().isEmpty() ||
             firstName == null || firstName.trim().isEmpty() ||
             lastName == null || lastName.trim().isEmpty() ||
             birthDate == null || birthDate.trim().isEmpty() ||
             address == null || address.trim().isEmpty()) {
-            
+
             System.out.println("Error: One or more fields are null or empty.");
             throw new IllegalArgumentException("Null or empty values are not allowed.");
         } else{
@@ -62,12 +62,18 @@ public class Person {
         }
         // writes details into file
         try (FileWriter writer = new FileWriter(filename, true)) {
+            //format the information in the text file so it is more readable
+            this.firstName = firstName.toUpperCase();
+            this.lastName = lastName.toUpperCase();
+            this.address = address.toUpperCase();
+            
+
             writer.write(personID + "," + lastName + "," +  firstName + "," + address + "," + birthDate + "\n");
         } catch (IOException e) {
             System.out.println("System error: Failure to write in file");
             return false;
         }
-        
+
         System.out.println("Success: Person added to RoadRegistry");
         return true;
     }
@@ -95,6 +101,13 @@ public class Person {
             System.out.println("Invalid update details. No changes have been made.");
             return false;
         }
+
+        // Capitalise all letters
+        inID = inID.toUpperCase();
+        inFirstName = inFirstName.toUpperCase();
+        inLastName = inLastName.toUpperCase();
+        inBirthDate = inBirthDate.toUpperCase();
+        inAddress = inAddress.toUpperCase();
 
         // Calculate person's age
         int birthYear = Integer.parseInt(birthDate.split("-")[2]);
@@ -190,7 +203,7 @@ public class Person {
             int birthYear = Integer.parseInt(currentBirthDate.split("-")[2]);
             int currentYear = LocalDate.now().getYear();
             age = currentYear - birthYear;
-        
+
             for (Date deductionDate : currentDemeritPoints.keySet()) {
                 if (!deductionDate.before(twoYearsAgo)) {
                     totalValidPoints += currentDemeritPoints.get(deductionDate);
@@ -200,7 +213,7 @@ public class Person {
         } else {
             exitMessage = "Failed";
         }
-            
+
 
         //CONDITION 3: If the person is under 21, the isSuspended variable should be set to true if the total demerit points within two years exceed 6.
         //If the person is over 21, the isSuspended variable should be set to true if the total demerit points within two years exceed 12.
@@ -231,7 +244,7 @@ public class Person {
                 for (Map.Entry<Date, Integer> violations : validEntries.entrySet()) {
                     writer.write(String.format("%1$td-%1$tm-%1$tY,%2$d\n", violations.getKey(), violations.getValue()));
                 }
-                
+
             } catch (IOException e) {
                 e.printStackTrace();
                 exitMessage = "Failed";
@@ -261,6 +274,7 @@ public class Person {
             System.out.println("User error: Invalid Address or outside address is outside victoria");
             return false;
         }
+
         return true;
     }
     private boolean validDate(String date){
@@ -281,8 +295,9 @@ public class Person {
         }
         String[] parts = date.split("-");
         //checks to see if the values of the dates are valid
+        Calendar cal = Calendar.getInstance();
         try {
-            if(!((Integer.parseInt(parts[2]) > 1900 && Integer.parseInt(parts[2]) <= 2025)
+            if(!((Integer.parseInt(parts[2]) > cal.get(Calendar.YEAR) - 120 && Integer.parseInt(parts[2]) <= cal.get(Calendar.YEAR))
             && (Integer.parseInt(parts[0]) > 0 && Integer.parseInt(parts[0]) <=31)
             && (Integer.parseInt(parts[1]) > 0 && Integer.parseInt(parts[1]) <= 12))){
                 System.out.println("User error: Date has invalid values");
@@ -296,10 +311,27 @@ public class Person {
        //double checks to see if the actual date is a real date
         try{
             LocalDate parsedDate = LocalDate.parse(date, formater);
+            LocalDate currenDate =  LocalDate.now();
+            int cmp = (parsedDate.getYear() - currenDate.getYear());
+            if (cmp == 0) {
+                cmp = (parsedDate.getMonthValue() - currenDate.getMonthValue());
+                if (cmp == 0) {
+                    cmp = (parsedDate.getDayOfMonth() - currenDate.getDayOfMonth());
+                    System.out.println(cmp);
+                } 
+            }
+            if(cmp > 0){
+                System.out.println("User error: Date selected is from the future");
+                return false;
+
+            }
         } catch(Exception e) {
             System.out.println("User error: Date is invalid");
             return false;
         }
+
+        
+
         return true;
     }
 
@@ -317,7 +349,7 @@ public class Person {
         }
         //checks first characters of id to see if they are digits
         if(!Character.isDigit(inputPersonID.charAt(0)) || !Character.isDigit(inputPersonID.charAt(1)) ){
-            System.out.println("User error: First characters in ID are not digits");
+            System.out.println("User error: First two characters in ID are not digits");
             return false;
         }
         //checks to see if the digits are within values of 2 and 9

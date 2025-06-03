@@ -63,32 +63,9 @@ public class Person {
         // writes details into file
         try (FileWriter writer = new FileWriter(filename, true)) {
             //format the information in the text file so it is more readable
-            lastName = lastName.substring(0, 1).toUpperCase() + lastName.substring(1).toLowerCase();
-            firstName = firstName.substring(0, 1).toUpperCase() + firstName.substring(1).toLowerCase();
-            String[] parts = address.split("\\|");
-            address = "";
-
-            String[] street = parts[1].split(" ");
-
-            
-            parts[1] = "";
-            for(int i = 0; i< street.length; i++){
-                parts[1] += street[i].substring(0, 1).toUpperCase() + street[i].substring(1).toLowerCase();
-                if(i < street.length - 1){
-                    parts[1] += " ";
-                }
-            }
-
-            for(int i = 2; i< parts.length; i++){
-                parts[i] = parts[i].substring(0, 1).toUpperCase() + parts[i].substring(1).toLowerCase();
-            }
-            
-            for(int i = 0; i< parts.length; i++){
-                address += parts[i];
-                if(i < parts.length - 1){
-                    address += "|";
-                }
-            }
+            this.firstName = firstName.toUpperCase();
+            this.lastName = lastName.toUpperCase();
+            this.address = address.toUpperCase();
             
 
             writer.write(personID + "," + lastName + "," +  firstName + "," + address + "," + birthDate + "\n");
@@ -304,7 +281,7 @@ public class Person {
         //checks to see if the values of the dates are valid
         Calendar cal = Calendar.getInstance();
         try {
-            if(!((Integer.parseInt(parts[2]) > 1900 && Integer.parseInt(parts[2]) <= cal.get(Calendar.YEAR))
+            if(!((Integer.parseInt(parts[2]) > cal.get(Calendar.YEAR) - 120 && Integer.parseInt(parts[2]) <= cal.get(Calendar.YEAR))
             && (Integer.parseInt(parts[0]) > 0 && Integer.parseInt(parts[0]) <=31)
             && (Integer.parseInt(parts[1]) > 0 && Integer.parseInt(parts[1]) <= 12))){
                 System.out.println("User error: Date has invalid values");
@@ -318,10 +295,27 @@ public class Person {
        //double checks to see if the actual date is a real date
         try{
             LocalDate parsedDate = LocalDate.parse(date, formater);
+            LocalDate currenDate =  LocalDate.now();
+            int cmp = (parsedDate.getYear() - currenDate.getYear());
+            if (cmp == 0) {
+                cmp = (parsedDate.getMonthValue() - currenDate.getMonthValue());
+                if (cmp == 0) {
+                    cmp = (parsedDate.getDayOfMonth() - currenDate.getDayOfMonth());
+                    System.out.println(cmp);
+                } 
+            }
+            if(cmp > 0){
+                System.out.println("User error: Date selected is from the future");
+                return false;
+
+            }
         } catch(Exception e) {
             System.out.println("User error: Date is invalid");
             return false;
         }
+
+        
+
         return true;
     }
 

@@ -302,8 +302,9 @@ public class Person {
         }
         String[] parts = date.split("-");
         //checks to see if the values of the dates are valid
+        Calendar cal = Calendar.getInstance();
         try {
-            if(!((Integer.parseInt(parts[2]) > 1900 && Integer.parseInt(parts[2]) <= 2025)
+            if(!((Integer.parseInt(parts[2]) > 1900 && Integer.parseInt(parts[2]) <= cal.get(Calendar.YEAR))
             && (Integer.parseInt(parts[0]) > 0 && Integer.parseInt(parts[0]) <=31)
             && (Integer.parseInt(parts[1]) > 0 && Integer.parseInt(parts[1]) <= 12))){
                 System.out.println("User error: Date has invalid values");
@@ -338,7 +339,7 @@ public class Person {
         }
         //checks first characters of id to see if they are digits
         if(!Character.isDigit(inputPersonID.charAt(0)) || !Character.isDigit(inputPersonID.charAt(1)) ){
-            System.out.println("User error: First characters in ID are not digits");
+            System.out.println("User error: First two characters in ID are not digits");
             return false;
         }
         //checks to see if the digits are within values of 2 and 9

@@ -29,12 +29,125 @@ class PersonTest {
     }
 
     // ADD PERSON
-    // TEST CASE 1:
+    // TEST CASE 1: Adding a person to the road registry with valid formats 
     @Test
-    void addPerson() {
+    void testUppercaseValidData() {
+        Person p = new Person("290$$YFUGE", "BOB", "JAMES", "09-10-2010",
+                "25|SNEyDes RoaD|MelbOurNe|VictorIa|AustRalia");
+        assertTrue(p.addPerson());
     }
-    // TEST CASE 2:
-    // TEST CASE 3:
+
+    // Lowercase valid data
+    @Test
+    void testLowercaseValidData() {
+        Person p = new Person("33hot*p^JI", "ethan", "pan", "03-02-2005",
+                "10|portelli drive|Geelong|victoria|australia");
+        assertTrue(p.addPerson());
+    }
+    //test case 2: Adding a person to the road registry with invalid ID 
+    // More than 10 characters in ID
+    @Test
+    void testIdTooLong() {
+        Person p = new Person("39GR^A&J+IK", "SaLly", "KiNg", "09-10-2010",
+                "25|BaLlArAt CoVe|BaLlARat|VictorIa|AustRalia");
+        assertFalse(p.addPerson());
+    }
+
+    // Less than 10 characters in ID
+    @Test
+    void testIdTooShort() {
+        Person p = new Person("39^A&J+IK", "SaLly", "KiNg", "09-10-2010",
+                "25|BaLlArAt CoVe|BaLlARat|VictorIa|AustRalia");
+        assertFalse(p.addPerson());
+    }
+
+    // First digit not 2-9
+    @Test
+    void testIdFirstDigitInvalid() {
+        Person p = new Person("19GR^&J+IK", "SaLly", "KiNg", "09-10-2010",
+                "25|BaLlArAt CoVe|BaLlARat|VictorIa|AustRalia");
+        assertFalse(p.addPerson());
+    }
+
+    // Second digit not 2-9
+    @Test
+    void testIdSecondDigitInvalid() {
+        Person p = new Person("70GR^&J+IK", "SaLly", "KiNg", "09-10-2010",
+                "25|BaLlArAt CoVe|BaLlARat|VictorIa|AustRalia");
+        assertFalse(p.addPerson());
+    }
+
+    //Less than 2 special chars in 3–8
+    @Test
+    void testIdTooFewSpecialChars() {
+        Person p = new Person("19GR^&J+IK", "SaLly", "KiNg", "09-10-2010",
+                "25|BaLlArAt CoVe|BaLlARat|VictorIa|AustRalia");
+        assertFalse(p.addPerson());
+    }
+
+    // 9th char is not uppercase
+    @Test
+    void testIdNinthCharNotUppercase() {
+        Person p = new Person("19GR^&J+6K", "SaLly", "KiNg", "09-10-2010",
+                "25|BaLlArAt CoVe|BaLlARat|VictorIa|AustRalia");
+        assertFalse(p.addPerson());
+    }
+
+    // 10th char is not uppercase
+    @Test
+    void testIdTenthCharNotUppercase() {
+        Person p = new Person("19GR^&J+Ha", "SaLly", "KiNg", "09-10-2010",
+                "25|BaLlArAt CoVe|BaLlARat|VictorIa|AustRalia");
+        assertFalse(p.addPerson());
+    }
+    //Test case 3: Adding a person to the road registry with incorrect name format 
+    // Non-alphabetical first name
+    @Test
+    void testFirstNameWithNonAlpha() {
+        Person p = new Person("39)8^A&J+I", "98_8j", "KiJ", "02-08-2010",
+                "13|ScReAM PrOmENaDe|fOotScRay|VictorIa|AustRalia");
+        assertFalse(p.addPerson());
+    }
+
+    // Non-alphabetical last name
+    @Test
+    void testLastNameWithNonAlpha() {
+        Person p = new Person("39)8^A&J+I", "HeRbert", "8O0*", "05-08-1999",
+                "13|ScRAM PrOmENaDe|fOotScRay|VictorIa|AustRalia");
+        assertFalse(p.addPerson());
+    }
+    //test case 4: Adding a person to the road registry with incorrect date of birth  
+    // Future date of birth
+    @Test
+    void testFutureDateOfBirth() {
+        Person p = new Person("39)8^A&JIK", "Herbert", "Berb", "05-08-2099",
+                "13|ScRAM PrOmENaDe|fOotScRay|VictorIa|AustRalia");
+        assertFalse(p.addPerson());
+    }
+
+    // Older than 120 years
+    @Test
+    void testAgeTooOld() {
+        Person p = new Person("39)8^A&JIK", "Herbert", "Berb", "05-08-1904",
+                "13|ScRAM PrOmENaDe|fOotScRay|VictorIa|AustRalia");
+        assertFalse(p.addPerson());
+    }
+    //Test case 5: Adding a person to the road registry with incorrect address format 
+    // Invalid address format
+    @Test
+    void testInvalidAddressFormat() {
+        Person p = new Person("39I()*UYJK", "BORB", "SUMM", "09-11-1940",
+                "25/Trash court/Essondon/Victoria/Australia");
+        assertFalse(p.addPerson());
+    }
+
+    // Address outside Victoria
+    @Test
+    void testAddressNotInVictoria() {
+        Person p = new Person("39I()*UYJK", "BORB", "SUMM", "09-11-1940",
+                "25|Maccas street|Cairns|Queensland|Australia");
+        assertFalse(p.addPerson());
+    }
 
     // UPDATE USER DETAILS
     // TEST CASE 1: Update Person with valid inputs

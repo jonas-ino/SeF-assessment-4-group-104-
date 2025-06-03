@@ -1,5 +1,6 @@
 # SeF-assessment-4-group-104-
 addPerson assumption:
+- User cannot submit empty or null fields
 - All fields are mandatory
 - birthDate and address will be formatted by and selected through an API
 - birthDate will be selected through date picker 

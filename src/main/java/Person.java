@@ -240,7 +240,7 @@ public class Person {
         }
         // checks to see if the address is within the operating zone of Roadregistry
         if(!parts[3].trim().equalsIgnoreCase("Victoria")
-        || !parts[4].trim().equals("Australia")){
+        || !parts[4].trim().equalsIgnoreCase("Australia")){
             System.out.println("User error: Invalid Address or outside address is outside victoria");
             return false;
         }
@@ -265,9 +265,9 @@ public class Person {
         String[] parts = date.split("-");
         //checks to see if the values of the dates are valid
         try {
-            if(!((Integer.parseInt(parts[2]) > 1900 && Integer.parseInt(parts[2]) <= 2025
-            && Integer.parseInt(parts[0]) > 0 && Integer.parseInt(parts[0]) <=31)
-            && Integer.parseInt(parts[1]) > 0 && Integer.parseInt(parts[1]) <= 12)){
+            if(!((Integer.parseInt(parts[2]) > 1900 && Integer.parseInt(parts[2]) <= 2025)
+            && (Integer.parseInt(parts[0]) > 0 && Integer.parseInt(parts[0]) <=31)
+            && (Integer.parseInt(parts[1]) > 0 && Integer.parseInt(parts[1]) <= 12))){
                 System.out.println("User error: Date has invalid values");
                 return false;
 

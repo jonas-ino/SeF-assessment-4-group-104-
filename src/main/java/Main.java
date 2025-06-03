@@ -4,8 +4,8 @@ import java.util.Date;
 
 public class Main {
     public static void main(String[] args){
-        Person p = new Person("37GDG^#@AB", "Adley", "Johnson", "09-08-2000", "25|Sneydes Road|Melbourne|Victoria|Australia");
-        // p.addPerson();
+        Person p = new Person("37GDG^#@AB", "Adley", "Johnson", "09-08-2030", "25|Sneydes Road|Melbourne|Victoria|Australia");
+        p.addPerson();
         // Person p2 = new Person(null, null, null, null, null);
         // p2.addPerson();
 

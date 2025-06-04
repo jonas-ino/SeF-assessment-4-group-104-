@@ -45,9 +45,9 @@ public class Person {
             throw new IllegalArgumentException("Null or empty values are not allowed.");
         } else{
             this.personID = personID;
-            this.firstName = firstName;
-            this.lastName = lastName;
-            this.address = address;
+            this.firstName = firstName.toUpperCase();
+            this.lastName = lastName.toUpperCase();
+            this.address = address.toUpperCase();
             this.birthDate = birthDate;
         }
     }

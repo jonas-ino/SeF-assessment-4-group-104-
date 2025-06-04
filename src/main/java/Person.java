@@ -172,8 +172,6 @@ public class Person {
         int totalValidPoints = 0;
         int age = 0;
 
-        System.out.println("test");
-
         if (!validId(currentID) || !validDate(currentBirthDate)) {
             exitMessage = "Failed";
         }
@@ -251,7 +249,6 @@ public class Person {
                 }
 
             } catch (IOException e) {
-                e.printStackTrace();
                 exitMessage = "Failed";
             }
         }

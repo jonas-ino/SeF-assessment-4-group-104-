@@ -170,8 +170,6 @@ public class Person {
         int totalValidPoints = 0;
         int age = 0;
 
-        System.out.println("test");
-
         if (!validId(currentID) || !validDate(currentBirthDate)) {
             exitMessage = "Failed";
         }
@@ -203,11 +201,16 @@ public class Person {
             age = currentYear - birthYear;
 
             for (Date deductionDate : currentDemeritPoints.keySet()) {
-                if (!deductionDate.before(twoYearsAgo)) {
+                if (!deductionDate.before(twoYearsAgo) && !deductionDate.after(currentDate)) {
                     totalValidPoints += currentDemeritPoints.get(deductionDate);
                     validEntries.put(deductionDate, currentDemeritPoints.get(deductionDate));
                 }
             }
+
+            if (validEntries.isEmpty()) {
+                exitMessage = "Failed";
+            }
+            
         } else {
             exitMessage = "Failed";
         }
@@ -380,7 +383,7 @@ public class Person {
     private boolean validName(String input){
         // Ensures that names are only letters
         for (char c : input.toCharArray()) {
-            if (Character.isDigit(c) || !Character.isLetterOrDigit(c)) {
+            if (!Character.isLetter(c)) {
                 System.out.println("User error: There is a digit or special character in name");
                 return false;
             }

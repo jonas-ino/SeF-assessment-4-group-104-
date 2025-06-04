@@ -205,11 +205,16 @@ public class Person {
             age = currentYear - birthYear;
 
             for (Date deductionDate : currentDemeritPoints.keySet()) {
-                if (!deductionDate.before(twoYearsAgo)) {
+                if (!deductionDate.before(twoYearsAgo) && !deductionDate.after(currentDate)) {
                     totalValidPoints += currentDemeritPoints.get(deductionDate);
                     validEntries.put(deductionDate, currentDemeritPoints.get(deductionDate));
                 }
             }
+
+            if (validEntries.isEmpty()) {
+                exitMessage = "Failed";
+            }
+            
         } else {
             exitMessage = "Failed";
         }

@@ -344,7 +344,7 @@ class PersonTest {
 
 
 
-    // ADD DEMERIT POINTS
+    /* --------------------------------- ADD DEMERIT POINTS --------------------------------- */
     // TEST CASE 1: Check the function with valid inputs.
     @Test
     void demeritValid1() {

@@ -30,7 +30,7 @@ public class Person {
     private String filename = "people.txt";
 
     public Person(){
-        System.out.println("So empty");
+        System.out.println("So empt");
     }
 
 

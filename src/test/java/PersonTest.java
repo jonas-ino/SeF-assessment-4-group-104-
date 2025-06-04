@@ -132,6 +132,12 @@ class PersonTest {
                 "13|ScRAM PrOmENaDe|fOotScRay|VictorIa|AustRalia");
         assertFalse(p.addPerson());
     }
+    //The user has selected a date that does not exist
+    void testInvalidDate() {
+        Person p = new Person("39)8^A&JIK", "Herbert", "Berb", "05-13-1920",
+                "13|ScRAM PrOmENaDe|fOotScRay|VictorIa|AustRalia");
+        assertFalse(p.addPerson());
+    }
     //Test case 5: Adding a person to the road registry with incorrect address format 
     // Invalid address format
     @Test

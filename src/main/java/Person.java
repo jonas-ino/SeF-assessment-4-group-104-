@@ -30,7 +30,7 @@ public class Person {
     private boolean isSuspended = false;
 
     public Person(){
-        System.out.println("So empty");
+        System.out.println("So empt");
     }
 
 
@@ -45,9 +45,9 @@ public class Person {
             throw new IllegalArgumentException("Null or empty values are not allowed.");
         } else{
             this.personID = personID;
-            this.firstName = firstName;
-            this.lastName = lastName;
-            this.address = address;
+            this.firstName = firstName.toUpperCase();
+            this.lastName = lastName.toUpperCase();
+            this.address = address.toUpperCase();
             this.birthDate = birthDate;
         }
     }
@@ -103,10 +103,8 @@ public class Person {
         }
 
         // Capitalise all letters
-        inID = inID.toUpperCase();
         inFirstName = inFirstName.toUpperCase();
         inLastName = inLastName.toUpperCase();
-        inBirthDate = inBirthDate.toUpperCase();
         inAddress = inAddress.toUpperCase();
 
         // Calculate person's age

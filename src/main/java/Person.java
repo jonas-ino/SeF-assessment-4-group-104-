@@ -103,10 +103,8 @@ public class Person {
         }
 
         // Capitalise all letters
-        inID = inID.toUpperCase();
         inFirstName = inFirstName.toUpperCase();
         inLastName = inLastName.toUpperCase();
-        inBirthDate = inBirthDate.toUpperCase();
         inAddress = inAddress.toUpperCase();
 
         // Calculate person's age

@@ -14,5 +14,4 @@ updatePersonalDetails Assumptions:
 - Empty strings make no changes to existing data
 
 addDemeritPoints Assumptions:
-- If there are no errors but no valid demerits, return success.
 - File only wants valid demerits.

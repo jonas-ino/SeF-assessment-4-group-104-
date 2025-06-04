@@ -26,8 +26,8 @@ public class Person {
     private String lastName;
     private String address;
     private String birthDate;
-    private HashMap<Date, Integer> demeritPoints;
     private String filename = "people.txt";
+    private boolean isSuspended = false;
 
     public Person(){
         System.out.println("So empty");
@@ -168,7 +168,6 @@ public class Person {
     public String addDemeritPoints(String currentID, String currentBirthDate, HashMap<Date, Integer> currentDemeritPoints){
         //and the addDemeritPoints function should return "Success". Otherwise, the addDemeritPoints function should return "Failed".
         String exitMessage = "Success";
-        boolean isSuspended = false;
         int totalValidPoints = 0;
         int age = 0;
 

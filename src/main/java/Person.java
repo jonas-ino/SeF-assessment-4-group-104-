@@ -249,6 +249,7 @@ public class Person {
                 }
 
             } catch (IOException e) {
+                e.printStackTrace();
                 exitMessage = "Failed";
             }
         }
